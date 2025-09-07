@@ -19,8 +19,14 @@ export default function CharadaCard({
   resposta_texto
 }: Props) {
   return (
-    <View style={{ gap: 8 }}>
-      <Text style={{ fontSize: 20, fontWeight: '700', fontFamily: 'LexendSemiBold', }}>Charada</Text>
+    <View style={{ gap: 8, marginTop:50 }}>
+      <Text style={{ fontSize: 20, fontFamily: 'LexendSemiBold', marginBottom: 10, }}>O Explorador da Vida</Text>
+        <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 20 }}>
+        <Text style={styles.answersQuestionText}>
+          Charada
+        </Text>
+      </View>
+
       <Text  style={styles.questionStatement}>{charada_texto}</Text>
       
     </View>

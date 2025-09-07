@@ -1,10 +1,7 @@
-import React, { createContext, useContext, useState, ReactNode } from 'react';
+import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
 import { Question } from '../types/quiz';
 import { fetchQuestions } from '../api/quizService';
-
-
 import { shuffleArray } from '../utils/array';
-
 
 type QuizContextType = {
   alunoRM: string;
@@ -13,15 +10,23 @@ type QuizContextType = {
   perguntas: Question[];
   setPerguntas: (q: Question[]) => void;
 
-  perguntaAtual: number;                // índice atual (0..19)
+  perguntaAtual: number;
   setPerguntaAtual: (i: number) => void;
 
-  pontuacao: number;                    // acertos
+  pontuacao: number;
   setPontuacao: (n: number) => void;
 
-  desbloqueadoAte: number;              // maior índice permitido (começa em 4 → 0..4)
+  desbloqueadoAte: number;
   setDesbloqueadoAte: (i: number) => void;
+
+  tempoQuiz: number;                
+  setTempoQuiz: (t: number) => void;   // ✅ adiciona aqui
+  quizRodando: boolean;                 // ✅ adiciona aqui
+  setQuizRodando: (v: boolean) => void;// ✅ adiciona aqui
+
+  resetTempoQuiz: () => void;          
 };
+
 
 const QuizContext = createContext<QuizContextType | undefined>(undefined);
 
@@ -30,9 +35,24 @@ export const QuizProvider = ({ children }: { children: ReactNode }) => {
   const [perguntas, setPerguntas] = useState<Question[]>([]);
   const [perguntaAtual, setPerguntaAtual] = useState(0);
   const [pontuacao, setPontuacao] = useState(0);
-
-  // Regras: 0..4 (5 questões) → Charada 1 → libera 5..9; depois 10..14; depois 15..19.
   const [desbloqueadoAte, setDesbloqueadoAte] = useState(4);
+
+  // ⏱️ Controle do tempo do quiz
+  const [tempoQuiz, setTempoQuiz] = useState(0); // tempo total em segundos
+  const [quizRodando, setQuizRodando] = useState(false);
+
+  const resetTempoQuiz = () => setTempoQuiz(0);
+
+  useEffect(() => {
+    if (!quizRodando) return; // só cria o timer se o quiz estiver ativo
+
+    const timer = setInterval(() => {
+      setTempoQuiz(t => t + 1);
+    }, 1000);
+
+    return () => clearInterval(timer); // limpa ao parar o quiz
+  }, [quizRodando]);
+
 
   return (
     <QuizContext.Provider value={{
@@ -40,7 +60,10 @@ export const QuizProvider = ({ children }: { children: ReactNode }) => {
       perguntas, setPerguntas,
       perguntaAtual, setPerguntaAtual,
       pontuacao, setPontuacao,
-      desbloqueadoAte, setDesbloqueadoAte
+      desbloqueadoAte, setDesbloqueadoAte,
+      tempoQuiz, setTempoQuiz, resetTempoQuiz,
+      quizRodando, setQuizRodando
+
     }}>
       {children}
     </QuizContext.Provider>

@@ -13,27 +13,40 @@ type Props = NativeStackScreenProps<RootStackParamList, 'Charada'>;
 export default function CharadaScreen({ route, navigation }: Props) {
   const { bloco } = route.params;
   const [CHARADAS, setCHARADAS] = useState<Charada[]>([]);
+
   useEffect(() => {
     const load = async () => {
       const cs = await fetchCharadas();
       setCHARADAS(cs);
     };
-    load(); // <- chama a função
+    load();
   }, []);
-  
-  return (
-    <View style={{ padding: 20, backgroundColor: '#fff', height: '100%', gap:20}}>
-      <CharadaCard charada_texto={CHARADAS[0]?.charada_texto} id={''} tema_value={''} qr_code_id={0} resposta_texto={''} />
 
-    <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('QRScanner', { bloco })}>
+  return (
+    <View style={{ padding: 20, backgroundColor: '#fff', height: '100%', gap: 20 }}>
+      <CharadaCard
+        charada_texto={CHARADAS[0]?.charada_texto}
+        id={''}
+        tema_value={''}
+        qr_code_id={0}
+        resposta_texto={''}
+      />
+
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() =>
+          navigation.navigate('QRScanner', {
+            blocoNumero: bloco,
+            respostaCorreta: CHARADAS[0]?.resposta_texto || '',
+          })
+        }
+      >
         <Text style={styles.buttonText}>Scannear QR Code</Text>
       </TouchableOpacity>
 
-      <Text style={styles.placeholder}>
-      Leia o QR Code disponível no local indicado pela charada.
+      <Text style={[styles.placeholder, { textAlign: 'center' }]}>
+        Leia o QR Code disponível no local indicado pela charada.
       </Text>
     </View>
-
-
   );
 }

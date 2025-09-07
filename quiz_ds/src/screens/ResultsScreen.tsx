@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { View, Button, ActivityIndicator } from 'react-native';
+import { View, Button, ActivityIndicator, TouchableOpacity, Text } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../navigation/AppNavigator';
 import { useQuiz } from '../context/QuizContext';
 import ResultBox from '../components/ResultBox';
 import { postStats } from '../api/quizService';
+import styles from '../styles/globalStyles';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Result'>;
 
 export default function ResultScreen({ navigation }: Props) {
-  const { alunoRM, pontuacao } = useQuiz();
+  const { alunoRM, pontuacao, tempoQuiz, resetTempoQuiz } = useQuiz();
   const [sending, setSending] = useState(false);
 
   useEffect(() => {
@@ -22,6 +23,7 @@ export default function ResultScreen({ navigation }: Props) {
           tema_jogado: 'portugues',
           pontuacao_final: pontuacao,
           total_perguntas: 20,
+          tempo: tempoQuiz
         });
         
       } catch (e) {
@@ -33,10 +35,20 @@ export default function ResultScreen({ navigation }: Props) {
   }, []);
 
   return (
-    <View style={{ padding: 20, gap: 20 }}>
-      <ResultBox score={pontuacao} total={20} />
+    <View style={{ padding: 20, gap: 20, backgroundColor: '#FFF', height:'100%' }}>
+      <ResultBox score={pontuacao} total={20} rmAluno={alunoRM} tempo={tempoQuiz} />
       {sending ? <ActivityIndicator /> : null}
-      <Button title="Voltar ao início" onPress={() => navigation.reset({ index: 0, routes: [{ name: 'Login' }] })} />
+
+
+      <TouchableOpacity style={styles.button} 
+        onPress={() => {
+        resetTempoQuiz(); // zera o tempo
+        navigation.reset({ index: 0, routes: [{ name: 'Login' }] });
+      }}
+          
+      >
+        <Text style={styles.buttonText}>Jogar Novamente</Text>
+      </TouchableOpacity>
     </View>
   );
 }

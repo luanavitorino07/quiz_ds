@@ -11,6 +11,7 @@ type Props = {
   resposta_correta: number; // índice da resposta correta
   indexAtual: number; 
   total: number;
+  tempo: number;
   onAnswer: (resposta: string) => void;
 };
 
@@ -20,6 +21,7 @@ export default function QuestionCard({
   resposta_correta,
   indexAtual,
   total,
+  tempo,
   onAnswer
 }: Props) {
   const [selected, setSelected] = useState<number | null>(null);
@@ -36,11 +38,15 @@ export default function QuestionCard({
   };
 
   return (
-    <View style={{ gap: 12 }}>
-      
-      <View>
-        <Text style={{ fontSize: 18, fontWeight: '600' }}>
+    <View style={{ gap: 12, marginTop: 50,}}>
+      <Text style={{ fontSize: 20, fontFamily: 'LexendSemiBold', marginBottom: 10, }}>O Explorador da Vida</Text>
+      <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 20 }}>
+        <Text style={styles.answersQuestionText}>
           Questão {indexAtual + 1}/{total}
+        </Text>
+
+        <Text style={styles.answersQuestionText}>
+          Tempo: {tempo}s
         </Text>
       </View>
 
@@ -62,7 +68,6 @@ export default function QuestionCard({
               textColor = '#fff';
             }
           }
-
           return (
             <TouchableOpacity
               key={index}

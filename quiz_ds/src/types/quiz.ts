@@ -21,4 +21,5 @@ export type StatsPayload = {
   tema_jogado: string;
   pontuacao_final: number;
   total_perguntas: number;
+  tempo: number;
 };

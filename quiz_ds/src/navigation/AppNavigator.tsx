@@ -15,11 +15,14 @@ import ResultScreen from '../screens/ResultsScreen';
  * - Exemplo: a tela "Charada" precisa de um número de bloco (1, 2 ou 3).
  */
 export type RootStackParamList = {
-  Login: undefined;                          // não recebe parâmetros
-  Quiz: undefined;                           // não recebe parâmetros
-  Charada: { bloco: 1 | 2 | 3 };             // recebe o número do bloco
-  QRScanner: { bloco: 1 | 2 | 3 };           // idem
-  Result: { pontuacao: number } | undefined; // pode receber pontuação ou nada
+  Login: undefined;
+  Quiz: undefined;
+  Charada: { bloco: 1 | 2 | 3 };
+  QRScanner: { 
+    blocoNumero: number;         // número do bloco
+    respostaCorreta: string;     // palavra correta da charada
+  };
+  Result: { pontuacao: number } | undefined;
 };
 
 // Cria o "stack" de navegação usando o tipo que definimos
@@ -33,7 +36,8 @@ export default function AppNavigator() {
   return (
     // NavigationContainer precisa envolver todo o stack
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Login">
+      <Stack.Navigator initialRouteName="Login"  screenOptions={{ headerShown: false }} 
+      >
         
         {/* Tela inicial (Login) */}
         <Stack.Screen 

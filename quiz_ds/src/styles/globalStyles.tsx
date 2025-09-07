@@ -7,12 +7,12 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
     alignItems: 'center',
-    justifyContent: 'center',
-    paddingHorizontal: 20,
+    padding: 30,
   },
   logoContainer: {
     alignItems: 'center',
-    marginBottom: 40,
+    marginBottom: 50,
+    marginTop: 60,
   },
   logoImage: {
     width: 150,
@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
     fontFamily: 'LexendSemiBold',
     
     color: '#1B2C46',
-    marginBottom: 30,
+    marginBottom: 50,
     
   },
   input: {
@@ -34,6 +34,7 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     paddingHorizontal: 15,
     fontSize: 16,
+    fontFamily: 'LexendRegular',
     marginBottom: 20,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 3.5 },
@@ -46,35 +47,34 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     alignItems: 'center',
     justifyContent: 'center',
-    padding:18,
+    padding:20,
+    marginBottom: 10,
   },
   buttonText: {
     color: '#fff',
     fontSize: 18,
-    fontFamily: 'LexendSemiBold',
-    fontWeight: '800',
+    fontFamily: 'LexendRegular',
+    
   },
   placeholder: {
     width:"97.5%",    
     color: '#1B2C46',
     fontFamily: 'LexendRegular',
+    marginBottom: 10,
   },
   questionStatement: {
     backgroundColor: "#DFE8F4",
     padding: '10%',
     borderRadius: 15,
     textAlign:'center',
-    fontFamily: 'LexendSemiBold',
+    marginBottom: 20,
   },
   questionText: {
     fontFamily: 'LexendSemiBold',
-    fontWeight: 700,
     fontSize: 17,
     textAlign: 'center'
    },
   answersQuestion: {
-    
-    gap: 11, 
     backgroundColor: '#F8F9F9',
     padding: 30,
     borderRadius: 10,
@@ -87,7 +87,7 @@ const styles = StyleSheet.create({
   answersQuestionText: {
     fontFamily: 'LexendRegular',
     textAlign: 'center',
-    fontSize: 15,
+    fontSize: 16,
     color: '#3A3F48',
   },
 });
