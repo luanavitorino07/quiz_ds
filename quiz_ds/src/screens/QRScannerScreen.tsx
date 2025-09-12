@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, Button, Alert, Dimensions } from 'react-native';
+import { View, Text, StyleSheet, Button, Alert, Dimensions, TouchableOpacity } from 'react-native';
 import { CameraView, useCameraPermissions } from 'expo-camera';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../navigation/AppNavigator';
@@ -39,7 +39,6 @@ const handleBarCodeScanned = ({ data }: { data: string }) => {
     navigation.pop(2);
   } else {
     Alert.alert("❌ QR Code inválido", "O QR não corresponde à resposta dessa charada.");
-    setScanned(false);
   }
 
 };
@@ -63,7 +62,10 @@ const handleBarCodeScanned = ({ data }: { data: string }) => {
 
       {scanned && (
         <View style={styles.buttonContainer}>
-          <Button title="Escanear novamente" onPress={() => setScanned(false)} />
+              
+          <TouchableOpacity style={styles.button} onPress={() => setScanned(false)}>
+            <Text style={styles.buttonText}>Scannear Novamente</Text>
+          </TouchableOpacity>
         </View>
       )}
     </View>
@@ -125,5 +127,20 @@ const styles = StyleSheet.create({
     borderRightWidth: 4,
     borderBottomWidth: 4,
     borderColor: '#FFF',
+  },
+  button: {
+    width: '100%',
+    backgroundColor: '#1B2C46', 
+    borderRadius: 15,
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding:20,
+    marginBottom: 10,
+  },
+  buttonText: {
+    color: '#fff',
+    fontSize: 18,
+    fontFamily: 'LexendRegular',
+    
   },
 });

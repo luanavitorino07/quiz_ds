@@ -32,7 +32,6 @@ export async function fetchCharadas(): Promise<Charada[]> {
 
   const charadasEmbaralhadas = shuffle(data);
 
-  // Retorna apenas 4 charadas diferentes
   return charadasEmbaralhadas.slice(0, 4);
 }
 

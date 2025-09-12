@@ -4,7 +4,7 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../navigation/AppNavigator';
 import CharadaCard from '../components/CharadaCard';
 import styles from '../styles/globalStyles'; 
-import { fetchCharadas, fetchQuestions } from '../api/quizService';
+import { fetchCharadas} from '../api/quizService';
 import { Charada } from '../types/quiz';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Charada'>;
