@@ -32,9 +32,7 @@ export default function QRScannerScreen({ route,navigation }: Props) {
 
 const handleBarCodeScanned = ({ data }: { data: string }) => {
   setScanned(true);
-
-  // compara com a palavra correta do bloco
-  if (data.toLowerCase() === respostaCorreta.toLowerCase()) {
+  if (data.toLowerCase() == respostaCorreta.toLowerCase()) {
     Alert.alert("✅ QR Code correto!", "Próximo bloco liberado.");
     const limite = blocoNumero * 5 - 1;
     setDesbloqueadoAte(limite);

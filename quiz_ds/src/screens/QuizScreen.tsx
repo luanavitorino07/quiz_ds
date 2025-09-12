@@ -1,26 +1,30 @@
 import React, { useEffect, useState } from 'react';
-import { View, ActivityIndicator, Alert, ScrollView } from 'react-native';
+import { View, ActivityIndicator, ScrollView } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../navigation/AppNavigator';
 import { getRandomQuestions, useQuiz } from '../context/QuizContext';
 import QuestionCard from '../components/QuestionCard';
 import { Question } from '../types/quiz';
-import { API_BASE } from '../config/env';
-
-console.log(API_BASE);
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Quiz'>;
 
-
 export default function QuizScreen({ navigation }: Props) {
-  const { pontuacao, setPontuacao, desbloqueadoAte, tempoQuiz, setTempoQuiz, quizRodando, setQuizRodando } = useQuiz();
+  const { 
+    pontuacao, 
+    setPontuacao, 
+    desbloqueadoAte, 
+    setDesbloqueadoAte,
+    tempoQuiz, 
+    setTempoQuiz, 
+    quizRodando, 
+    setQuizRodando 
+  } = useQuiz();
 
   const [perguntas, setPerguntas] = useState<Question[]>([]);
   const [loading, setLoading] = useState(true);
   const [perguntaAtual, setPerguntaAtual] = useState(0);
 
-
-
+  // Pega perguntas aleatórias
   useEffect(() => {
     getRandomQuestions()
       .then(qs => {
@@ -33,51 +37,43 @@ export default function QuizScreen({ navigation }: Props) {
       });
   }, []);
 
+  // Começa o quiz
   useEffect(() => {
-    setQuizRodando(true); // começa na primeira pergunta
-    return () => setQuizRodando(false); // para quando sair da tela ou terminar
+    setQuizRodando(true);
+    return () => setQuizRodando(false);
   }, []);
 
-  
-  useEffect(() => {
-    if (perguntaAtual > desbloqueadoAte) {
-      Alert.alert(
-        'Bloqueado',
-        'Resolva a charada e escaneie o QR Code para liberar o próximo bloco.'
-      );
-      const bloco =
-        perguntaAtual + 1 === 5 ? 1 :
-        perguntaAtual + 1 === 10 ? 2 : 3;
-      navigation.navigate('Charada', { bloco });
+  const handleAnswer = (altIndex: number, acertou: boolean) => {
+    // Atualiza pontuação
+    if (acertou) {
+      setPontuacao(prev => {
+        const novoValor = prev + 1;
+        return novoValor;
+      });
     }
-  }, [perguntaAtual, desbloqueadoAte, navigation]);
-
-
-
-  const handleAnswer = (alt: string) => {
-    const q = perguntas[perguntaAtual];
-    const acertou = alt === q.correta;
-    if (acertou) setPontuacao(pontuacao + 1);
 
     const proxima = perguntaAtual + 1;
+    const perguntasCharada = [5, 10, 15];
 
-    if (proxima >= perguntas.length) {
-      setQuizRodando(false);
-      navigation.replace('Result', { pontuacao: acertou ? pontuacao + 1 : pontuacao });
+    // Verifica se deve abrir Charada
+    if (perguntasCharada.includes(proxima) && proxima > desbloqueadoAte) {
+      const bloco =
+        proxima === 5 ? 1 :
+        proxima === 10 ? 2 : 3; // só 3 blocos
+      setDesbloqueadoAte(proxima);
+      setPerguntaAtual(proxima);
+      navigation.navigate('Charada', { bloco });
       return;
     }
 
-    const pontosDeCharada = [5, 10, 15];
-    const proximaHumana = proxima + 1;
-
-    if (pontosDeCharada.includes(proximaHumana)) {
-      if (proxima > desbloqueadoAte) {
-        const bloco = proximaHumana === 5 ? 1 : proximaHumana === 10 ? 2 : 3;
-        navigation.navigate('Charada', { bloco });
-        return;
-      }
+    // Fim do quiz
+    if (proxima >= perguntas.length) {
+      setQuizRodando(false);
+      navigation.replace('Result');
+      return;
     }
 
+    // Avança para a próxima pergunta
     setPerguntaAtual(proxima);
   };
 
@@ -89,17 +85,18 @@ export default function QuizScreen({ navigation }: Props) {
     );
   }
 
-
   return (
     <ScrollView style={{ flex: 1, padding: 20, backgroundColor: '#FFF', marginBottom: 20 }}>
-      
       <QuestionCard
         enunciado={perguntas[perguntaAtual].enunciado}
         opcoes={perguntas[perguntaAtual].opcoes}
         resposta_correta={perguntas[perguntaAtual].resposta_correta}
         indexAtual={perguntaAtual}
         total={perguntas.length}
-        onAnswer={handleAnswer} id={0} tema={''} bloco={0} 
+        onAnswer={handleAnswer}
+        id={0}
+        tema={''}
+        bloco={0}
         tempo={tempoQuiz}
       />
     </ScrollView>

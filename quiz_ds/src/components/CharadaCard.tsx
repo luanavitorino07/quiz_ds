@@ -27,7 +27,9 @@ export default function CharadaCard({
         </Text>
       </View>
 
-      <Text  style={styles.questionStatement}>{charada_texto}</Text>
+      <View style={styles.questionStatement}>
+        <Text style={ styles.questionText}> {charada_texto}</Text>       
+      </View>
       
     </View>
   );

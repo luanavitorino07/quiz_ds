@@ -12,7 +12,7 @@ type Props = {
   indexAtual: number; 
   total: number;
   tempo: number;
-  onAnswer: (resposta: string) => void;
+  onAnswer: (resposta: number, acertou: boolean) => void; // índice + se acertou
 };
 
 export default function QuestionCard({
@@ -30,16 +30,21 @@ export default function QuestionCard({
     if (selected !== null) return; // já respondeu
     setSelected(index);
 
+    const acertou = index === resposta_correta; // verifica se acertou
+
     // espera 1s para mostrar cores antes de avançar
     setTimeout(() => {
-      onAnswer(opcoes[index]);
+      onAnswer(index, acertou); // envia índice e se acertou
       setSelected(null); // reseta para próxima questão
     }, 1000);
   };
 
   return (
-    <View style={{ gap: 12, marginTop: 50,}}>
-      <Text style={{ fontSize: 20, fontFamily: 'LexendSemiBold', marginBottom: 10, }}>O Explorador da Vida</Text>
+    <View style={{ gap: 12, marginTop: 50 }}>
+      <Text style={{ fontSize: 20, fontFamily: 'LexendSemiBold', marginBottom: 10 }}>
+        O Explorador da Vida
+      </Text>
+
       <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 20 }}>
         <Text style={styles.answersQuestionText}>
           Questão {indexAtual + 1}/{total}
@@ -50,7 +55,6 @@ export default function QuestionCard({
         </Text>
       </View>
 
-
       <View style={styles.questionStatement}>
         <Text style={styles.questionText}>{enunciado}</Text>
       </View>
@@ -58,30 +62,29 @@ export default function QuestionCard({
       <View>
         {opcoes.map((alt, index) => {
           let bgColor = "#F8F9F9";
-          let textColor = '#3A3F48';// cor padrão
+          let textColor = '#3A3F48'; // cor padrão
+
           if (selected !== null) {
             if (index === resposta_correta) {
               bgColor = "#1B2C46"; // correta
               textColor = '#fff';
+              
             } else if (index === selected) {
               bgColor = "#9F3E3E"; // escolhida errada
               textColor = '#fff';
             }
           }
+
           return (
             <TouchableOpacity
               key={index}
               onPress={() => handlePress(index)}
-              style={[
-                styles.answersQuestion,
-                { backgroundColor: bgColor }
-              ]}
+              style={[styles.answersQuestion, { backgroundColor: bgColor }]}
               disabled={selected !== null} // desativa botões depois da escolha
             >
-              <Text style={[
-              styles.answersQuestionText,
-              { color: textColor }
-              ]}>{alt}</Text>
+              <Text style={[styles.answersQuestionText, { color: textColor }]}>
+                {alt}
+              </Text>
             </TouchableOpacity>
           );
         })}
