@@ -43,8 +43,9 @@ export default function QuizScreen({ navigation }: Props) {
     return () => setQuizRodando(false);
   }, []);
 
+
+
   const handleAnswer = (altIndex: number, acertou: boolean) => {
-    
     if (acertou) {
       setPontuacao(prev => {
         const novoValor = prev + 1;
@@ -53,27 +54,27 @@ export default function QuizScreen({ navigation }: Props) {
     }
 
     const proxima = perguntaAtual + 1;
-    const perguntasCharada = [5, 10, 15];
-
- 
+    const perguntasCharada = [5, 10, 15, 19];
+    
     if (perguntasCharada.includes(proxima) && proxima > desbloqueadoAte) {
       const bloco =
         proxima === 5 ? 1 :
-        proxima === 10 ? 2 : 3; 
+        proxima === 10 ? 2 :
+        proxima === 15 ? 3 :
+        4; 
+
       setDesbloqueadoAte(proxima);
       setPerguntaAtual(proxima);
       navigation.navigate('Charada', { bloco });
       return;
     }
 
-  
     if (proxima >= perguntas.length) {
       setQuizRodando(false);
       navigation.replace('Result');
       return;
     }
 
-  
     setPerguntaAtual(proxima);
   };
 
@@ -84,6 +85,9 @@ export default function QuizScreen({ navigation }: Props) {
       </View>
     );
   }
+
+
+
 
   return (
     <ScrollView style={{ flex: 1, padding: 20, backgroundColor: '#FFF', marginBottom: 20 }}>
