@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from 'react';
-import { View,  TouchableOpacity, Text } from 'react-native';
+import React, { useEffect, useState, useCallback } from 'react';
+import { View, TouchableOpacity, Text, BackHandler } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { useFocusEffect } from '@react-navigation/native';
 import { RootStackParamList } from '../navigation/AppNavigator';
 import CharadaCard from '../components/CharadaCard';
 import styles from '../styles/globalStyles'; 
-import { fetchCharadas} from '../api/quizService';
+import { fetchCharadas } from '../api/quizService';
 import { Charada } from '../types/quiz';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Charada'>;
-
 
 export default function CharadaScreen({ route, navigation }: Props) {
   const { bloco } = route.params;
@@ -21,6 +21,19 @@ export default function CharadaScreen({ route, navigation }: Props) {
     };
     load();
   }, []);
+
+
+  useFocusEffect(
+    useCallback(() => {
+      const onBackPress = () => true; 
+      const subscription = BackHandler.addEventListener(
+        'hardwareBackPress',
+        onBackPress
+      );
+
+      return () => subscription.remove(); 
+    }, [])
+  );
 
   return (
     <View style={{ padding: 20, backgroundColor: '#fff', height: '100%', gap: 20 }}>

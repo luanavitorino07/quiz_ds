@@ -4,30 +4,28 @@ import { View, Text, TextInput, Image, TouchableOpacity } from 'react-native';
 import { useQuiz } from '../context/QuizContext';
 import styles from '../styles/globalStyles'; 
 
-// Importa tipagem do React Navigation
+
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../navigation/AppNavigator';
 
-// Declara que essa tela é a de "Login"
+
 type Props = NativeStackScreenProps<RootStackParamList, 'Login'>;
 
 export default function LoginScreen({ navigation }: Props) {
-  // pega funções do contexto global
+ 
   const { setAlunoRM, setPerguntaAtual, setPontuacao, setDesbloqueadoAte } = useQuiz();
 
-  // estado local para o input do RM
   const [rm, setRm] = useState('');
 
-  // função chamada ao clicar em "Iniciar"
   const iniciar = () => {
-    if (!rm.trim()) return; // se vazio, não faz nada
+    if (!rm.trim()) return; 
 
-    setAlunoRM(rm.trim());     // salva RM no contexto
-    setPerguntaAtual(0);       // começa na primeira questão
-    setPontuacao(0);           // zera pontuação
-    setDesbloqueadoAte(4);     // libera as primeiras 5 questões (índice 0..4)
+    setAlunoRM(rm.trim());    
+    setPerguntaAtual(0);
+    setPontuacao(0);           
+    setDesbloqueadoAte(4);     
 
-    navigation.replace('Quiz'); // vai direto para tela do Quiz
+    navigation.replace('Quiz'); 
   };
 
   return (
@@ -43,8 +41,8 @@ export default function LoginScreen({ navigation }: Props) {
         <TextInput
           keyboardType="number-pad"
           style={styles.input}
-          value={rm}                // valor atual do estado
-          onChangeText={setRm}      // atualiza o estado quando digitar
+          value={rm}                
+          onChangeText={setRm}      
         />
         </View>
 

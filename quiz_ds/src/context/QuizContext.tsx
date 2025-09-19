@@ -20,9 +20,9 @@ type QuizContextType = {
   setDesbloqueadoAte: (i: number) => void;
 
   tempoQuiz: number;                
-  setTempoQuiz: (t: number) => void;   // ✅ adiciona aqui
-  quizRodando: boolean;                 // ✅ adiciona aqui
-  setQuizRodando: (v: boolean) => void;// ✅ adiciona aqui
+  setTempoQuiz: (t: number) => void;   
+  quizRodando: boolean;                 
+  setQuizRodando: (v: boolean) => void;
 
   resetTempoQuiz: () => void;          
 };
@@ -37,20 +37,20 @@ export const QuizProvider = ({ children }: { children: ReactNode }) => {
   const [pontuacao, setPontuacao] = useState(0);
   const [desbloqueadoAte, setDesbloqueadoAte] = useState(4);
 
-  // ⏱️ Controle do tempo do quiz
-  const [tempoQuiz, setTempoQuiz] = useState(0); // tempo total em segundos
+  
+  const [tempoQuiz, setTempoQuiz] = useState(0); 
   const [quizRodando, setQuizRodando] = useState(false);
 
   const resetTempoQuiz = () => setTempoQuiz(0);
 
   useEffect(() => {
-    if (!quizRodando) return; // só cria o timer se o quiz estiver ativo
+    if (!quizRodando) return; 
 
     const timer = setInterval(() => {
       setTempoQuiz(t => t + 1);
     }, 1000);
 
-    return () => clearInterval(timer); // limpa ao parar o quiz
+    return () => clearInterval(timer); 
   }, [quizRodando]);
 
 

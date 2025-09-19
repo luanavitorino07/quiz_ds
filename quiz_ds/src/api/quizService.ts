@@ -3,7 +3,7 @@ import { API_BASE } from '../config/env';
 import { Charada, Question, StatsPayload } from '../types/quiz';
 
 export async function fetchQuestions(): Promise<Question[]> {
-  const res = await fetch(`${API_BASE}/api/quiz/portugues`, { method: 'GET' });
+  const res = await fetch(`${API_BASE}/api/quiz/biologia`, { method: 'GET' });
   if (!res.ok) throw new Error(`Erro ao buscar perguntas: ${res.status}`);
 
   const data = await res.json();
@@ -20,7 +20,7 @@ export async function fetchCharadas(): Promise<Charada[]> {
 
   if (!Array.isArray(data)) throw new Error("Formato inesperado: " + JSON.stringify(data));
 
-  // Função para embaralhar array
+ 
   const shuffle = <T>(array: T[]): T[] => {
     const a = [...array];
     for (let i = a.length - 1; i > 0; i--) {

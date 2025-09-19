@@ -8,7 +8,7 @@ import { useQuiz } from '../context/QuizContext';
 type Props = NativeStackScreenProps<RootStackParamList, 'QRScanner'>;
 
 const { width, height } = Dimensions.get('window');
-const overlaySize = width * 0.7; // tamanho do quadrado guia
+const overlaySize = width * 0.7; 
 
 export default function QRScannerScreen({ route,navigation }: Props) {
    const { blocoNumero, respostaCorreta } = route.params;

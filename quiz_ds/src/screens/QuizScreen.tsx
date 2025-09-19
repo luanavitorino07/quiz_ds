@@ -24,7 +24,7 @@ export default function QuizScreen({ navigation }: Props) {
   const [loading, setLoading] = useState(true);
   const [perguntaAtual, setPerguntaAtual] = useState(0);
 
-  // Pega perguntas aleatórias
+  
   useEffect(() => {
     getRandomQuestions()
       .then(qs => {
@@ -37,14 +37,14 @@ export default function QuizScreen({ navigation }: Props) {
       });
   }, []);
 
-  // Começa o quiz
+
   useEffect(() => {
     setQuizRodando(true);
     return () => setQuizRodando(false);
   }, []);
 
   const handleAnswer = (altIndex: number, acertou: boolean) => {
-    // Atualiza pontuação
+    
     if (acertou) {
       setPontuacao(prev => {
         const novoValor = prev + 1;
@@ -55,25 +55,25 @@ export default function QuizScreen({ navigation }: Props) {
     const proxima = perguntaAtual + 1;
     const perguntasCharada = [5, 10, 15];
 
-    // Verifica se deve abrir Charada
+ 
     if (perguntasCharada.includes(proxima) && proxima > desbloqueadoAte) {
       const bloco =
         proxima === 5 ? 1 :
-        proxima === 10 ? 2 : 3; // só 3 blocos
+        proxima === 10 ? 2 : 3; 
       setDesbloqueadoAte(proxima);
       setPerguntaAtual(proxima);
       navigation.navigate('Charada', { bloco });
       return;
     }
 
-    // Fim do quiz
+  
     if (proxima >= perguntas.length) {
       setQuizRodando(false);
       navigation.replace('Result');
       return;
     }
 
-    // Avança para a próxima pergunta
+  
     setPerguntaAtual(proxima);
   };
 

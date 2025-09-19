@@ -1,4 +1,4 @@
-// src/types/quiz.ts
+
 export type Question = {
   opcoes: string[];
   resposta_correta: number;

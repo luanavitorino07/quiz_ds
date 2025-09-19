@@ -14,20 +14,20 @@ export default function ResultScreen({ navigation }: Props) {
   const [sending, setSending] = useState(false);
 
   useEffect(() => {
-    // faça o envio automático ao entrar na tela
+   
     (async () => {
       try {
         setSending(true);
         await postStats({
           aluno_rm: alunoRM,
-          tema_jogado: 'portugues',
+          tema_jogado: 'biologia',
           pontuacao_final: pontuacao,
           total_perguntas: 20,
           tempo: tempoQuiz
         });
         
       } catch (e) {
-        // opcional: feedback ao usuário
+        
       } finally {
         setSending(false);
       }
@@ -42,7 +42,7 @@ export default function ResultScreen({ navigation }: Props) {
 
       <TouchableOpacity style={styles.button} 
         onPress={() => {
-        resetTempoQuiz(); // zera o tempo
+        resetTempoQuiz(); 
         navigation.reset({ index: 0, routes: [{ name: 'Login' }] });
       }}
           
